@@ -18,8 +18,6 @@ import shutil
 import json
 from collections import OrderedDict
 
-import iwUtilities     as util
-
 
 def write_json( json_dict, json_filename, subject_id='', instrument_prefix='', verbose=False):
     """ Write JSON output file"""
@@ -28,7 +26,7 @@ def write_json( json_dict, json_filename, subject_id='', instrument_prefix='', v
          json.dump( json_dict, outfile, indent=4, ensure_ascii=True, sort_keys=False)
 
     if verbose:
-        util.print_json_redcap_instrument(json_stats_filename)
+        print_json_redcap_instrument(json_stats_filename)
 
     return
 
@@ -103,8 +101,8 @@ def print_stage( in_stage, verboseFlag=False ):
 
      if verboseFlag:
           print
-          print '--------------------------------------------------------------------------------------------------------------'
-          print '--- ' + in_stage
+          print('--------------------------------------------------------------------------------------------------------------')
+          print('--- ' + in_stage)
           print
 
 
@@ -115,17 +113,17 @@ def fslval( input_file, parameter, verboseFlag = False ):
      callCommand = ["fslval", input_file, str(parameter)]
 
      if verboseFlag:
-          print " ".join(callCommand)
+          print(" ".join(callCommand))
      
      if os.path.isfile( input_file ):
           pipe = subprocess.Popen(callCommand, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
           value = int( pipe.stdout.read() )
 
           if verboseFlag:
-               print input_file, parameter, value
+               print(input_file, parameter, value)
           
      else:
-          print "File does not exist."
+          print("File does not exist.")
           quit()
 
 
@@ -138,12 +136,12 @@ def gunzip( gz_filename, verboseFlag=False ):
      [filename, extension ] = os.path.splitext(gz_filename)
 
      if verboseFlag:
-          print filename, extension
+          print(filename, extension)
 
      if extension == ".gz":
           iw_subprocess( ["gunzip", "-f", gz_filename] )
      else:
-          print "iwUtilities.gunzip failed. Not a gzip file"
+          print("iwUtilities.gunzip failed. Not a gzip file")
           quit()
 
      return filename
@@ -152,7 +150,7 @@ def gunzip( gz_filename, verboseFlag=False ):
 def gzip( filename, verboseFlag=False ):
 
      if verboseFlag:
-          print filename, extension
+          print(filename, extension)
 
      iw_subprocess( ["gzip", "-f", filename] )
 
@@ -216,7 +214,7 @@ def verify_that_file_exists(in_filename):
           
      except IOError as e:
           print
-          print in_filename + " does not exist."
+          print(in_filename + " does not exist.")
           print
           raise e
 
@@ -577,7 +575,7 @@ def extract_affine(in_image, out_affine_filename, lps_flag=False, lps_save_flag=
 
      # Save transform
 
-     affine_wras_to_wlps = util.wras_to_wlps_matrix();
+     affine_wras_to_wlps = wras_to_wlps_matrix();
      affine_iras_to_wras = np.asarray(img.get_affine())
 
      if lps_flag:
@@ -589,6 +587,6 @@ def extract_affine(in_image, out_affine_filename, lps_flag=False, lps_save_flag=
      # Save RAS to LPS transform          
      
      if lps_save_flag:
-          util.write_itk_affine_matrix( affine_wras_to_wlps, [0,0,0], 'lps.'+ out_affine_filename, verbose_flag )
+          write_itk_affine_matrix( affine_wras_to_wlps, [0,0,0], 'lps.'+ out_affine_filename, verbose_flag )
 
-     util.write_itk_affine_matrix(out_affine, [0,0,0], out_affine_filename, verbose_flag )
+     write_itk_affine_matrix(out_affine, [0,0,0], out_affine_filename, verbose_flag )
