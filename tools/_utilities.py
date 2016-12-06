@@ -6,54 +6,13 @@ import sys
 import os                                               # system functions
 import errno
 import glob
-import shutil
-import distutils
 import re
-import argparse
 import subprocess
 import nibabel as nb
 import numpy   as np
-import gzip
 import shutil
-import json
-from collections import OrderedDict
 
 
-def write_json( json_dict, json_filename, subject_id='', instrument_prefix='', verbose=False):
-    """ Write JSON output file"""
-
-    with open(json_filename, 'w') as outfile:
-         json.dump( json_dict, outfile, indent=4, ensure_ascii=True, sort_keys=False)
-
-    if verbose:
-        print_json_redcap_instrument(json_stats_filename)
-
-    return
-
-def print_json(json):
-    print_json_redcap_instrument(json)
- 
-        
-
-def print_json_redcap_instrument(in_json):
-    """ Print REdCap instrument measures to a JSON file"""
-
-    if type(in_json) is dict or type(in_json) is OrderedDict:
-        json_dict = in_json
-
-    elif type(in_json) is str and os.path.isfile(in_json):        
-        with open(in_json, 'r') as infile:
-            json_dict = json.load(infile, object_pairs_hook=OrderedDict)
-
-    else:
-        print('Unknown JSON type for printing')
-        return
-
-    print('')
-    print(json.dumps(json_dict, indent=4, ensure_ascii=True,sort_keys=False))
-    print(' ')
-
-    return
 
 def  freeview( fileList, displayFlag=False, verboseFlag=False ):
 
@@ -100,35 +59,33 @@ def path_relative_to(in_directory, in_path):
 def print_stage( in_stage, verboseFlag=False ):
 
      if verboseFlag:
-          print
+          print()
           print('--------------------------------------------------------------------------------------------------------------')
           print('--- ' + in_stage)
-          print
+          print()
 
 
 
 def fslval( input_file, parameter, verboseFlag = False ):
 
-     
-     callCommand = ["fslval", input_file, str(parameter)]
+    callCommand = ["fslval", input_file, str(parameter)]
 
-     if verboseFlag:
-          print(" ".join(callCommand))
-     
-     if os.path.isfile( input_file ):
-          pipe = subprocess.Popen(callCommand, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-          value = int( pipe.stdout.read() )
+    if verboseFlag:
+        print(" ".join(callCommand))
 
-          if verboseFlag:
-               print(input_file, parameter, value)
-          
-     else:
-          print("File does not exist.")
-          quit()
+    if os.path.isfile( input_file ):
+        pipe = subprocess.Popen(callCommand, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        value = int( pipe.stdout.read() )
 
+        if verboseFlag:
+            print(input_file, parameter, value)
 
+    else:
+        value = 0
+        print("File does not exist.")
+        quit()
 
-     return value
+    return value
 
 
 def gunzip( gz_filename, verboseFlag=False ):
@@ -149,12 +106,12 @@ def gunzip( gz_filename, verboseFlag=False ):
 
 def gzip( filename, verboseFlag=False ):
 
-     if verboseFlag:
-          print(filename, extension)
+    if verboseFlag:
+        print(filename, extension)
 
-     iw_subprocess( ["gzip", "-f", filename] )
+    iw_subprocess( ["gzip", "-f", filename] )
 
-     return filename +  ".gz"
+    return filename +  ".gz"
 
 
 
@@ -179,7 +136,7 @@ def  insert_suffix_into_filename( filename, suffix, full_extension = ".nii.gz" )
      import re
 
      [dir_name, full_filename ]     = os.path.split(filename)
-     [ base_filename, extension  ]  = os.path.splitext(full_filename)
+     [ _, extension  ]  = os.path.splitext(full_filename)
  
      index = full_filename.find(extension)
 
