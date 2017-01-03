@@ -9,6 +9,10 @@
 #
 #
 
+TIC_REPOSITORY_PATH=${1-$PWD}
+TIC_SETUP_PATH=$HOME/.tic
+
+
 git clone https://github.com/bkraft4257/tic_outliers
 git clone https://github.com/crhamilt/tic_redcap_link
 git clone https://github.com/crhamilt/tic_protocol_check
