@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 export TIC_PATH=/cenc/tic/
 
 alias cdtic='cd $TIC_PATH; echo; ls; echo'
