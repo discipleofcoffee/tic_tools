@@ -16,7 +16,7 @@ TIC_SETUP_PATH=$HOME/.tic
 git clone https://github.com/bkraft4257/tic_freesurfer
 git clone https://github.com/bkraft4257/tic_labels
 git clone https://github.com/crhamilt/tic_protocol_check
-git clone https://github.com/bkraft/tic_redcap_link
+git clone https://github.com/bkraft4257/tic_redcap_link
 
 if [ ! -d $TIC_SETUP_PATH ]; then
 
