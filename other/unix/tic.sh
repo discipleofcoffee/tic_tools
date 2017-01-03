@@ -8,8 +8,7 @@ source $HOME/.tic/tic_aliases.sh
 
 source $HOME/.tic/tic_freesurfer.sh
 source $HOME/.tic/tic_tools.sh
-source $HOME/.tic/tic_labels.sh
-source $HOME/.tic/redcap_link.sh
-source $HOME/.tic/cenc.sh
+# source $HOME/.tic/tic_labels.sh
+# source $HOME/.tic/redcap_link.sh
 
 
