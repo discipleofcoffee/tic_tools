@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 Plots several overlay images using nilearn.plot_stat_map.
