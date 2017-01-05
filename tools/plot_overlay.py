@@ -178,11 +178,11 @@ def plot_overlay_xyz(background, overlay, xyz_direction, cut_coords, out_dir=os.
 
     # Loop over cuts and create background image
 
-    if len(cut_coords) == 1:
+#    if len(cut_coords) == 1:
         cuts = plotting.find_cut_slices(image.load_img(background), direction=xyz_direction,
-                                        n_cuts=cut_coords[0], spacing='auto')
-    else:
-        cuts = cut_coords
+#                                        n_cuts=cut_coords[0], spacing='auto')
+#    else:
+#        cuts = cut_coords
 
     for ii,jj in enumerate(cuts):
 
@@ -281,7 +281,8 @@ def main():
     parser.add_argument('--out_dir', help="Background Image", default=os.getcwd() )
     parser.add_argument('--display_mode', help="Direction", choices=['x','y','z', 'ortho'], default='z')
 
-    parser.add_argument('--cut_coords', help="Number of slices", nargs='*', type=int, default=1)
+#    parser.add_argument('--cut_coords', help="Number of slices", nargs='*', type=int, default=[1])
+    parser.add_argument('--nslices', help="Number of slices", type=int, default=5)
 
     parser.add_argument('--colorbar', help='If True, display a colorbar on the right of the plots.',
                         action="store_true", default=False )
@@ -343,7 +344,7 @@ def main():
     if 'ortho' in inArgs.display_mode:
 
         # Ortho plots a single ortho slice at the center of the volume
-        plot_overlay_ortho(inArgs.bg_img, inArgs.overlay, inArgs.display_mode, inArgs.cut_coords, alpha=inArgs.alpha,
+        plot_overlay_ortho(inArgs.bg_img, inArgs.overlay, inArgs.display_mode, inArgs.nslices, alpha=inArgs.alpha,
                            threshold=threshold,
                            colorbar=inArgs.colorbar, out_dir=inArgs.out_dir,
                            black_bg=inArgs.black_bg,
@@ -355,7 +356,7 @@ def main():
     else:
 
         # Plots a series of slices
-        plot_overlay_xyz(inArgs.bg_img, inArgs.overlay, inArgs.display_mode, inArgs.cut_coords, alpha = inArgs.alpha,
+        plot_overlay_xyz(inArgs.bg_img, inArgs.overlay, inArgs.display_mode, inArgs.nslices, alpha = inArgs.alpha,
                          threshold=threshold,
                          colorbar=inArgs.colorbar, out_dir=inArgs.out_dir,
                          black_bg=inArgs.black_bg,
