@@ -179,8 +179,8 @@ def plot_overlay_xyz(background, overlay, xyz_direction, cut_coords, out_dir=os.
     # Loop over cuts and create background image
 
 #    if len(cut_coords) == 1:
-        cuts = plotting.find_cut_slices(image.load_img(background), direction=xyz_direction,
-#                                        n_cuts=cut_coords[0], spacing='auto')
+    cuts = plotting.find_cut_slices(image.load_img(background), direction=xyz_direction,
+                                      n_cuts=cut_coords, spacing='auto')
 #    else:
 #        cuts = cut_coords
 
