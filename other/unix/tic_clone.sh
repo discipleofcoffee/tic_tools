@@ -18,14 +18,16 @@ cd $TIC_REPOSITORY_PATH
 
 # TIC Modules hosted by bkraft4257
 
-for ii in tic_cbf tic_freesurfer tic_labels tic_protocol_check tic_redcap_link; do
+for ii in tic_cbf tic_freesurfer tic_labels tic_redcap_link; do
     [ -d $TIC_REPOSITORY_PATH/${ii} ] || git clone https://github.com/bkraft4257/${ii}
+    echo
 done
 
 # TIC modules hosted by crhamilt
 
-for ii in tic_protocol_check tic_redcap_link; do
+for ii in tic_protocol_check; do
     [ -d $TIC_REPOSITORY_PATH/${ii} ] || git clone https://github.com/crhamilt/${ii}
+    echo
 done
 
 #git clone https://github.com/bkraft4257/tic_freesurfer
