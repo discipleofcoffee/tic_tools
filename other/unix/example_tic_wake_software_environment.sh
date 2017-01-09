@@ -2,7 +2,7 @@
 
 case $HOST in
   aging1a | aging2a)
-	SOFTWARE_PATH=/aging1/software/
+	export SOFTWARE_PATH=/aging1/software/
     ;;
 
   *)
