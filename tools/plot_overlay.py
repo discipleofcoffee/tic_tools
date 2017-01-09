@@ -146,7 +146,7 @@ def redblue_bipolar(lutsize=256, n=0.333, interp='linear'):
 # region Main Function
 #
 
-def plot_overlay_ortho(background, overlay, xyz_direction, ncuts, out_dir=os.getcwd(), **kwargs):
+def plot_overlay_ortho(background, overlay, xyz_direction, ncuts, out_dir=os.getcwd(),  cmap='redblue', **kwargs):
     """ Creates a nCut png images from the NIFTI image """
 
     # Create output directory if it doesn't exist
@@ -156,7 +156,20 @@ def plot_overlay_ortho(background, overlay, xyz_direction, ncuts, out_dir=os.get
 
     output_file  = os.path.abspath( os.path.join(out_dir, 'overlay_{0}'.format(xyz_direction) + '.png'))
 
-    plotting.plot_stat_map(overlay, bg_img=background, cmap=redblue_bipolar(),
+    if cmap is 'redblue':
+        cmap = redblue_bipolar()
+
+    elif cmap is 'hot':
+        cmap = redblue_bipolar()
+
+    elif cmap is 'jet':
+        cmap = redblue_bipolar()
+
+    else:
+        cmap = redblue_bipolar()
+
+
+    plotting.plot_stat_map(overlay, bg_img=background, cmap=cmap,
                            display_mode=xyz_direction, cut_coords=(0,0,0),
                            output_file=output_file,
                            **kwargs
@@ -169,7 +182,7 @@ def plot_overlay_ortho(background, overlay, xyz_direction, ncuts, out_dir=os.get
 # region Main Function
 #
 
-def plot_overlay_xyz(background, overlay, xyz_direction, cut_coords, out_dir=os.getcwd(), **kwargs):
+def plot_overlay_xyz(background, overlay, xyz_direction, cut_coords, out_dir=os.getcwd(), cmap='redblue', **kwargs):
     """ Creates a nCut png images from the NIFTI image """
 
     # Create output directory if it doesn't exist
@@ -268,6 +281,18 @@ def main():
 
     vmax : float
         Upper bound for plotting, passed to matplotlib.pyplot.imshow
+
+
+    Examples:
+
+        tic_plot_overlay brainmask.mgz --bg_img FLAIR.mgz --display_mode ortho   --colorbar --black_bg --threshold .2
+
+
+    Limitations:
+
+        Colormap is bipolar only.  It needs to be able to be changed.
+
+
 """
 
     usage = "usage: %prog [options] arg1 arg2"
@@ -278,53 +303,61 @@ def main():
     parser.add_argument('overlay', help="Overlay Image")
     parser.add_argument('--bg_img', help="Background Image")
 
-    parser.add_argument('--out_dir', help="Background Image", default=os.getcwd() )
+    parser.add_argument('--out_dir', help="Output directory (./)", default=os.getcwd() )
     parser.add_argument('--display_mode', help="Direction", choices=['x','y','z', 'ortho'], default='z')
 
 #    parser.add_argument('--cut_coords', help="Number of slices", nargs='*', type=int, default=[1])
-    parser.add_argument('--nslices', help="Number of slices", type=int, default=5)
+    parser.add_argument('--nslices', help="Number of slices (5)", type=int, default=5)
 
-    parser.add_argument('--colorbar', help='If True, display a colorbar on the right of the plots.',
+    parser.add_argument('--colorbar', help='If True, display a colorbar on the right of the plots (False).',
                         action="store_true", default=False )
 
-    parser.add_argument('--cmap', help=('Selects colormap for overlay image from a set list'
-                                        '[redblue_bipolar]'), default='redblue_bipolar' )
+    parser.add_argument('--symmetric_cbar', help=('Specifies whether the colorbar should range from -vmax to vmax or'
+                                                  'from vmin to vmax. Setting to auto will select the latter if the'
+                                                  'range of the whole image is either positive or negative. Note:'
+                                                  'The colormap will always be set to range from -vmax to vmax.'
+                                                  '(False)'),
+                        action="store_true", default=False )
+
+    parser.add_argument('--cmap', help=('Selects colormap for overlay image from a set list. Currently, only colormap '
+                                        'supported is the redblue diverging colormap. Other colormaps are expected '
+                                        'to be added in the future. (redblue)'), default='redblue_bipolar', choices=['redblue'] )
 
     parser.add_argument('--annotate',
                         help= ('If annotate is True, positions and left/right '
-                               'annotation is added to the plot.'),
+                               'annotation is added to the plot. (false)'),
                         action="store_true", default=False)
 
     parser.add_argument('--draw_cross', help= ('If draw_cross is True, a cross is drawn on the plot to '
-                                               'indicate the cut plosition.'),
+                                               'indicate the cut plosition. (false)'),
                         action="store_true", default=False)
 
-    parser.add_argument('--alpha', help='Alpha of overlay image', type=float, default=.8)
+    parser.add_argument('--alpha', help='Alpha of overlay image (0.8)', type=float, default=.8)
 
     parser.add_argument('--vmax', help='Upper bound for plotting, passed to matplotlib.pyplot.imshow',
-                        type=float, default=.8)
+                        type=float, default=None)
 
     parser.add_argument('--dim', help=('Dimming factor applied to background image. By default, automatic heuristics'
                                        'are applied based upon the background image intensity. Accepted float values,'
                                        'where a typical scan is -1 to 1 (-1 = increase constrast; '
                                        '1 = decrease contrast), but larger values can be used for a more pronounced'
-                                       'effect. 0 means no dimming.'),
+                                       'effect. 0 means no dimming. (0)'),
                         type=float, default=0)
 
     parser.add_argument('--threshold', help=('If None is given, the image is not thresholded. '
                                              'If a number is given, it is used to threshold the image: '
                                              'values below the threshold (in absolute value) '
                                              'are plotted as transparent. If auto is given, the threshold '
-                                             'is determined magically by analysis of the image.'),
+                                             'is determined magically by analysis of the image. (None)'),
                         default=None)
 
     parser.add_argument('--black_bg', help=('If True, the background of the image is set to be black.'
                                             'If you wish to save figures with a black background,'
                                             'you will need to pass facecolor=k, edgecolor=k to '
-                                            'matplotlib.pyplot.savefig.'),
+                                            'matplotlib.pyplot.savefig. (False)'),
                         action="store_true", default=False)
 
-    parser.add_argument('-v', '--verbose', help='If True, display a colorbar on the right of the plots.',
+    parser.add_argument('-v', '--verbose', help='If True, display a colorbar on the right of the plots. (false)',
                         action="store_true", default=False )
 
     inArgs = parser.parse_args()
@@ -351,6 +384,8 @@ def main():
                            annotate=inArgs.annotate,
                            vmax=inArgs.vmax,
                            dim=inArgs.dim,
+                           cmap=inArgs.cmap,
+                           symmetric_cbar=inArgs.symmetric_cbar,
                            draw_cross=inArgs.draw_cross)
 
     else:
@@ -363,6 +398,8 @@ def main():
                          annotate=inArgs.annotate,
                          vmax=inArgs.vmax,
                          dim=inArgs.dim,
+                         cmap=inArgs.cmap,
+                         symmetric_cbar=inArgs.symmetric_cbar,
                          draw_cross=inArgs.draw_cross)
 
 

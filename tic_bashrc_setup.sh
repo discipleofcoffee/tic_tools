@@ -1,20 +1,15 @@
-#
-# TIC Setup
-#
+#!/usr/bin/env bash
 
-export TIC_PATH=/cenc/tic/
-export TIC_LABELS_PATH=${TIC_PATH}/tic_labels/
-export TIC_OUTLIERS_PATH=${TIC_PATH}/tic_outliers/
-export TIC_PROTOCOL_CHECK_PATH=${TIC_PATH}/tic_protocol_check/
-export TIC_REDCAP_LINK_PATH=${TIC_PATH}/tic_redcap_link/
+# The following two lines should be placed your .tic directory in your tic.sh 
+# setup file. 
 
-alias cdtic='cd $TIC_PATH; echo; ls; echo'
+# export TIC_TOOLS_PATH=$TIC_PATH/tic_tools/''  # Add path information here
+# source $TIC_TOOLS_PATH/tic_bashrc_setup.sh
 
-TIC_MODULES=${TIC_LABELS_PATH}/labels:${TIC_OUTLIERS_PATH}/outliers:${TIC_PROTOCOL_CHECK_PATH}/protocol_check
-TIC_MODULES=${TIC_REDCAP_LINK_PATH}/redcap:${TIC_MODULES}
-export TIC_MODULES
 
-export PATH=$TIC_MODULES}/$PATH
+export TIC_TOOLS_PYTHONPATH=${TIC_TOOLS_PATH}/tools
+export PYTHONPATH=${TIC_TOOLS_PYTHONPATH}:$PYTHONPATH
 
-PYTHONPATH=${TIC_LABELS_PATH}/labels:${TIC_OUTLIERS_PATH}/outliers:${TIC_PROTOCOL_CHECK_PATH}/protocol_check:${PYTHONPATH}
-PYTHONPATH=${TIC_REDCAP_LINK_PATH}/redcap:$PYTHONPATH
+source $TIC_TOOLS_PATH/other/unix/dcm_functions.sh
+source $TIC_TOOLS_PATH/other/unix/tic_aliases.sh
+source $TIC_TOOLS_PATH/other/unix/tic_functions.sh
