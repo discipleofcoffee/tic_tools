@@ -16,8 +16,16 @@ TIC_SETUP_PATH=$HOME/.tic
 
 cd $TIC_REPOSITORY_PATH
 
+# TIC Modules hosted by bkraft4257
+
 for ii in tic_cbf tic_freesurfer tic_labels tic_protocol_check tic_redcap_link; do
     [ -d $TIC_REPOSITORY_PATH/${ii} ] || git clone https://github.com/bkraft4257/${ii}
+done
+
+# TIC modules hosted by crhamilt
+
+for ii in tic_protocol_check tic_redcap_link; do
+    [ -d $TIC_REPOSITORY_PATH/${ii} ] || git clone https://github.com/crhamilt/${ii}
 done
 
 #git clone https://github.com/bkraft4257/tic_freesurfer
