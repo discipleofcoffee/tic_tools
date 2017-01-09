@@ -1,11 +1,11 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
 
 # TIC Environment Setup ======================================
 
 export TIC_PATH=/Users/bkraft/PycharmProjects/
 export HOME_TIC_PATH=$HOME/.tic
 
-source ${HOME_TIC_PATH}/tic_flip_software_environment.sh
+source ${HOME_TIC_PATH}/tic_wake_software_environment.sh
 
 export TIC_TOOLS_PATH=$TIC_PATH/tic_tools/
 source ${TIC_TOOLS_PATH}/tic_tools_bash_setup.sh
