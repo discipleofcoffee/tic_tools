@@ -3,6 +3,13 @@
 # TIC Environment Setup ======================================
 
 export TIC_PATH=/Users/bkraft/PycharmProjects/
+
+if [ ! -d $TIC_PATH ]; then
+    echo "$TIC_PATH does not exist. Please edit your $HOME/.tic/tic.sh file."
+    exit
+fi
+
+
 export HOME_TIC_PATH=$HOME/.tic
 
 source ${HOME_TIC_PATH}/tic_wake_software_environment.sh
