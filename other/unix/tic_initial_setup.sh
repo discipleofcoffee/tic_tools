@@ -9,7 +9,7 @@
 #
 #
 
-"${TIC_TOOLS_PATH:?Need to set TIC_TOOLS_PATH to the location of TIC_TOOLS}"
+# "${TIC_TOOLS_PATH:?Need to set TIC_TOOLS_PATH to the location of TIC_TOOLS}"
 
 if [ ! -f $TIC_TOOLS_PATH/tic_tools_bash_setup.sh ]; then
     echo "TIC_TOOLS_PATH is not correct. Please try again"
