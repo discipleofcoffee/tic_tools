@@ -26,26 +26,19 @@ export TIC_FREESURFER_PATH=$TIC_PATH/tic_freesurfer/
 source ${TIC_FREESURFER_PATH}/tic_freesurfer_bash_setup.sh
 
 
-# Studies ======================================
+# Templates =================================================
+
+# This a list of templates that have been collected and placed in a location that is easily accessible.  Information
+# of how these templates were downloaded may (or may not) be found in the individual paths.
+
+TEMPLATES_PATH=/cenc/software/imagewake2/release/templates/
+
+TEMPLATE_INIA19=$TEMPLATES_PATH/inia19_rhesus_macaque
+TEMPLATE_IXI=$TEMPLATES_PATH/ixi
+TEMPLATE_MNI=$TEMPLATES_PATH/mni
+TEMPLATE_LPBA40=$TEMPLATES_PATH/lpba40
+TEMPLATE_OHSU_RHESUS=$TEMPLATES_PATH/ohsu_rhesus
 
 
-STUDIES_PATH=$HOME/PycharmProjects/
-
-#WBI Study
-export WBI_PATH=$STUDIES_PATH/wbi/
-source $WBI_PATH/wbi_bash_setup.sh
-
-#RADCORE Study
-export RADCORE_PATH=$STUDIES_PATH/radcore/
-export RADCORE_MRI_SUBJECT_DATA=/RadCCORE_MRI/subjects
-source $RADCORE_PATH/radcore_bash_setup.sh
-
-
-# CENC Study
-export CENC_PATH=$STUDIES_PATH/cenc
-export CENC_DISK=/Volumes/cenc/
-
-source ${CENC_PATH}/cenc_bash_setup.sh
-SUBJECTS_DIR=$CENC_SUBJECTS_DIR
 
 
