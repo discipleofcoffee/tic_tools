@@ -13,6 +13,7 @@
 
 if [ ! -f $TIC_TOOLS_PATH/tic_tools_bash_setup.sh ]; then
     echo "TIC_TOOLS_PATH is not correct. Please try again"
+    exit
 fi
 
 TIC_SETUP_PATH=$HOME/.tic
