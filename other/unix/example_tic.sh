@@ -2,14 +2,14 @@
 
 # TIC Environment Setup ======================================
 
-export TIC_PATH=/Users/bkraft/PycharmProjects/
+export TIC_PATH=/cenc/tic/
 
 if [ ! -d $TIC_PATH ]; then
 
     echo
     echo "$TIC_PATH does not exist. Please edit your $HOME/.tic/tic.sh file."
     echo
-    sleep 10
+    sleep 5
 
 fi
 
