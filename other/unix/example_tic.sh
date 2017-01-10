@@ -5,7 +5,11 @@
 export TIC_PATH=/Users/bkraft/PycharmProjects/
 
 if [ ! -d $TIC_PATH ]; then
+
+    echo
     echo "$TIC_PATH does not exist. Please edit your $HOME/.tic/tic.sh file."
+    echo
+    sleep 10
     exit
 fi
 
