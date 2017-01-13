@@ -10,14 +10,14 @@
 
 #
 
-t_option=${1}
-e_option=${2}
-m_option=${3}
-f_option=${4}
-p_option=${5}
+t_option=${2}
+e_option=${3}
+m_option=${4}
+f_option=${5}
+p_option=${6}
 output_directory=${6}
-out_prefix=${7}
-a_option=${8}
+out_prefix=${8}
+a_option=${9}
 
 ants_ct_brain_extraction.sh -d 3 -t {t_option} -w 0.25 -e {e_option} -m {m_option} -f {f_option} -p {p_option} \
     -o {output_directory} + "/" + {out_prefix} -a ${a_option}
