@@ -138,16 +138,6 @@ if __name__ == "__main__":
                     [ p5_option, ":visible=0:colormap=jet"],
                     [ p6_option, ":visible=0:colormap=jet"]]
      
-     if inArgs.debug:
-         print "inArgs.qi       = " +  str(inArgs.qi)
-         print "inArgs.qo       = " +  str(inArgs.qo)
-         print "inArgs.display  = " +  str(inArgs.display)
-         print "inArgs.debug    = " +  str(inArgs.debug)
-         print "inArgs.verbose  = " +  str(inArgs.verbose)
-         print
-         print "template_root_dir = " + template_root_dir
-
-
 
 
      # Quality Assurance input
@@ -155,10 +145,10 @@ if __name__ == "__main__":
          
      if  inArgs.qi:
 
-         qa.qa_input_files( input_files, inArgs.verbose, False )
+         qa.qa_input_files( input_files, True, False )
 
-         qa.freeview( input_files[:2], inArgs.display, inArgs.verbose )
-         qa.freeview( input_files[2:], inArgs.display, inArgs.verbose )
+         qa.freeview( input_files[:2], True, inArgs.verbose )
+         qa.freeview( input_files[2:], True, inArgs.verbose )
 
      
      # Run    
@@ -198,16 +188,16 @@ if __name__ == "__main__":
      if  inArgs.qo:
 
           if qa.qa_exist(output1_files, False):
-               qa.freeview( output1_files, inArgs.display, inArgs.verbose ) 
+               qa.freeview( output1_files, True, inArgs.verbose )
 
           else:
-               print("Unable to QO iwAntsCT.py. Failed output1 QA.")
+               print("Unable to QO ants_ct.py. Failed output1 QA.")
                qa.qa_exist( output1_files, True )
                print()
 
           if qa.qa_exist(output2_files, False ):
-               qa.freeview( output2_files, inArgs.display ) 
+               qa.freeview( output2_files, True )
           else:
-               print("Unable to QO iwAntsCT.py. Failed output2 QA.")
+               print("Unable to QO ants_ct.py. Failed output2 QA.")
                qa.qa_exist( output2_files, True )
                print()
