@@ -47,7 +47,7 @@ if __name__ == "__main__":
      parser.add_argument("--t2full",          help="T2 TSE used in QI and QO (default = None )", default = None )
      parser.add_argument("--t2flair",         help="T2 Flair used in QI and QO (default = None )", default = None )
      parser.add_argument("--indir",           help="Input directory", default = os.getcwd() )
-     parser.add_argument("--outdir",          help="Output directory", default = '../01a-t1w_only/' )
+     parser.add_argument("--outdir",          help="Output directory", default = '../methods/' )
      parser.add_argument("--outprefix",       help="Output prefix", default = "" )
      parser.add_argument("-d","--display",    help="Display Results", action="store_true", default=False )
      parser.add_argument("-t","--template",   help="Template", default='inia19', choices=['inia19', 'ixi'])
