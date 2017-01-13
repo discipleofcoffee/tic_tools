@@ -15,7 +15,7 @@ import _utilities as util
 
 def create_command(method, output_directory):
 
-    callCommand = [ 'iwAntsCT_' + method + '.sh',  "-d", "3", "-t", t_option, "-w", "0.25",
+    callCommand = [ 'ants_ct_' + method + '.sh',  "-d", "3", "-t", t_option, "-w", "0.25",
                     "-e", e_option, "-m", m_option, "-f", f_option, "-p", p_option, "-o", output_directory + "/" + inArgs.out_prefix ]
 
     callCommand = callCommand + [ "-a", inArgs.t1full ]
@@ -27,7 +27,6 @@ def create_command(method, output_directory):
         callCommand = callCommand + [ "-a", inArgs.t2flair ]
 
     return callCommand
-
 
 
 #
@@ -61,8 +60,8 @@ if __name__ == "__main__":
     parser.add_argument("--nohup", help="nohup", action="store_true", default=False)
     parser.add_argument("--methods", help="Run processing pipeline", action="store_true", default=False)
 
-    parser.add_argument("--methods_stage", help="Stages to run in the processing pipeline", type=int, nargs='*', default = [ 1,2,3 ],
-                        choices = [ 1,2,3 ])
+    parser.add_argument("--methods_stage", help="Stages to run in the processing pipeline [all, 1, 2, 3] (all)", type=str, nargs='*', default = [ 'all' ],
+                        choices = [ 'all', '1','2','3' ])
 
     inArgs = parser.parse_args()
 
@@ -203,7 +202,7 @@ if __name__ == "__main__":
         print('Runnning ants_ct.py')
         print()
 
-        if 1 in inArgs.methods_stage:
+        if '1' in inArgs.methods_stage:
 
             if qa.qa_input_files(input_files, False):
 
@@ -223,7 +222,7 @@ if __name__ == "__main__":
 
 
 
-        if 2 in inArgs.methods_stage:
+        if '2' in inArgs.methods_stage:
 
             if  qa.qa_input_files(input_files, False):
 
@@ -238,7 +237,7 @@ if __name__ == "__main__":
                 print()
 
 
-        if 3 in inArgs.methods_stage:
+        if '3' in inArgs.methods_stage:
 
             if  qa.qa_input_files(input_files, False):
 

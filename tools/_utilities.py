@@ -210,17 +210,16 @@ def iw_subprocess( callCommand, verboseFlag=False, debugFlag=False,  nohupFlag=F
           if debugFlag:
                print('Timestamp: %s ' % timeStamp )
 
-          
           callCommand = ["nohup" ] + callCommand
 
           stdout_log_file   = 'nohup.stdout.' + timeStamp +'.log'
           stderr_log_file   = 'nohup.stderr.' + timeStamp +'.log' 
           
           if verboseFlag or debugFlag:
-               print
-               print " ".join(callCommand)
-               print stdout_log_file
-               print
+               print()
+               print(" ".join(callCommand))
+               print(stdout_log_file)
+               print()
 
           # http://stackoverflow.com/questions/6011235/run-a-program-from-python-and-have-it-continue-to-run-after-the-script-is-kille                   
 
@@ -231,7 +230,7 @@ def iw_subprocess( callCommand, verboseFlag=False, debugFlag=False,  nohupFlag=F
                             )
 
           if verboseFlag or debugFlag:
-               print
+               print()
 
      else:
 
