@@ -12,8 +12,8 @@ import distutils
 
 import argparse
 import subprocess
-import iwQa
-import iwUtilities
+import _qa_utilities as qa
+import _utilities as util
 
 
 def clean( imageFile ):
@@ -42,7 +42,7 @@ if __name__ == "__main__":
              self.print_help()
              sys.exit(2)
 
-     parser = argparse.ArgumentParser(prog='iwAntsCT')
+     parser = argparse.ArgumentParser(prog='ants_ct')
      parser.add_argument("--t1full",          help="Full T1w image (default = t1w.nii.gz )", default = "t1w.nii.gz" )
      parser.add_argument("--t2full",          help="T2 TSE used in QI and QO (default = None )", default = None )
      parser.add_argument("--t2flair",         help="T2 Flair used in QI and QO (default = None )", default = None )
@@ -69,7 +69,7 @@ if __name__ == "__main__":
      optional_files = [[inArgs.t2flair, ":visible=0:colormap=grayscale"]]
 
      template_root_dir =  os.getenv("IMAGEWAKE2_TEMPLATES")
-     print template_root_dir
+     print(template_root_dir)
 
      if inArgs.template == "ixi":
           template_dir    =  os.path.join(template_root_dir,"ixi/cerebellum/")
@@ -155,10 +155,10 @@ if __name__ == "__main__":
          
      if  inArgs.qi:
 
-         iwQa.qa_input_files( input_files, inArgs.verbose, False )
+         qa.qa_input_files( input_files, inArgs.verbose, False )
 
-         iwQa.freeview( input_files[:2], inArgs.display, inArgs.verbose )
-         iwQa.freeview( input_files[2:], inArgs.display, inArgs.verbose )
+         qa.freeview( input_files[:2], inArgs.display, inArgs.verbose )
+         qa.freeview( input_files[2:], inArgs.display, inArgs.verbose )
 
      
      # Run    
@@ -166,12 +166,9 @@ if __name__ == "__main__":
    
      if  inArgs.run or inArgs.nohup:
 
-          
-          print
-          print "Runnning iwAntsCT.py"
-          print
+          print("\nRunnning ants_ct.py\n")
 
-          if  iwQa.qa_input_files( input_files, False):
+          if  qa.qa_input_files( input_files, False):
 
                if not os.path.exists( out_directory ):
                     os.makedirs( out_directory )
@@ -187,12 +184,12 @@ if __name__ == "__main__":
                if not inArgs.t2flair == None:
                     callCommand = callCommand + [ "-a", inArgs.t2flair ] 
                      
-               iwUtilities.iw_subprocess( callCommand, inArgs.verbose, inArgs.debug,  inArgs.nohup )
+               util.iw_subprocess( callCommand, inArgs.verbose, inArgs.debug,  inArgs.nohup )
 
           else:
-               print "Unable to run iwAntsCT.py. Failed input QA."
-               iwQa.qa_exist( input_files, True )
-               print
+               print("Unable to run iwAntsCT.py. Failed input QA.")
+               qa.qa_exist( input_files, True )
+               print()
 
 
      # Quality Assurance output
@@ -200,17 +197,17 @@ if __name__ == "__main__":
 
      if  inArgs.qo:
 
-          if iwQa.qa_exist(output1_files, False):
-               iwQa.freeview( output1_files, inArgs.display, inArgs.verbose ) 
+          if qa.qa_exist(output1_files, False):
+               qa.freeview( output1_files, inArgs.display, inArgs.verbose ) 
 
           else:
-               print "Unable to QO iwAntsCT.py. Failed output1 QA."
-               iwQa.qa_exist( output1_files, True )
-               print
+               print("Unable to QO iwAntsCT.py. Failed output1 QA.")
+               qa.qa_exist( output1_files, True )
+               print()
 
-          if iwQa.qa_exist(output2_files, False ):
-               iwQa.freeview( output2_files, inArgs.display ) 
+          if qa.qa_exist(output2_files, False ):
+               qa.freeview( output2_files, inArgs.display ) 
           else:
-               print "Unable to QO iwAntsCT.py. Failed output2 QA."
-               iwQa.qa_exist( output2_files, True )
-               print
+               print("Unable to QO iwAntsCT.py. Failed output2 QA.")
+               qa.qa_exist( output2_files, True )
+               print()
