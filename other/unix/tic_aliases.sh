@@ -14,7 +14,7 @@ alias cda='echo; echo $PWD; cd $(pwd -P); echo $PWD; echo; ls; echo'
 alias redcm='source $IMAGEWAKE2_SCRIPTS/dcm_functions.sh'
 
 
-alias ag='alias | grep
+alias ag='alias | grep'
 alias hg='history | grep '
 alias eg='env | grep '
 alias lg='ls | grep '
