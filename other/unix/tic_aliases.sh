@@ -26,6 +26,7 @@ alias fsvall='fslview_all_function'
 
 alias lsreport='lsreport_function'
 
+alias tic_reorient='iwReorient2Std.sh ../../reorient *.gz'
 
 # Aliases to TIC Python functions
 

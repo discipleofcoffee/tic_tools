@@ -16,9 +16,9 @@ import subprocess
 def display_command( command, verboseFlag=False ):
 
     if verboseFlag:
-        print 
-        print command
-        print        
+        print()
+        print(command)
+        print()
 
 def  qa_exist(fileList, displayFlag=False):
      qaExistStatus = qa_input_files(fileList, displayFlag)
@@ -30,7 +30,7 @@ def  qa_input_files(fileList, verboseFlag=False, displayFlag=False):
     maxFileStringLength = max(map(len, filter(None, fileNames) )) + 4
 
     if verboseFlag:
-        print
+        print()
 
     qaInputStatus       = True
         
@@ -44,7 +44,7 @@ def  qa_input_files(fileList, verboseFlag=False, displayFlag=False):
             qaInputStatus   = False
 
         if verboseFlag and (ii[0] != None):
-            print "\t{1:{0}s} {2:4s}".format(maxFileStringLength, str( ii[0] ), passfail(fileInputStatus))
+            print("\t{1:{0}s} {2:4s}".format(maxFileStringLength, str( ii[0] ), passfail(fileInputStatus)))
 
         
             
@@ -52,7 +52,7 @@ def  qa_input_files(fileList, verboseFlag=False, displayFlag=False):
         freeview(fileList, verboseFlag)
      
     if verboseFlag:
-        print "\n\t{1:{0}s} {2:4s}\n".format(maxFileStringLength, "Quality Assurance Inputs", passfail(qaInputStatus))
+        print("\n\t{1:{0}s} {2:4s}\n".format(maxFileStringLength, "Quality Assurance Inputs", passfail(qaInputStatus)))
         
     return qaInputStatus
    

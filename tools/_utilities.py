@@ -175,6 +175,17 @@ def verify_that_file_exists(in_filename):
           print
           raise e
 
+def read_nifti_file(nii_filename, error_message):
+
+    if os.path.isfile(nii_filename):
+        try:
+            nii = nb.load(nii_filename)
+        except IOError:
+            sys.exit("Unable to read NIFTI file")
+    else:
+        sys.exit(error_message)
+
+    return nii
 
 #
 #
@@ -235,17 +246,17 @@ def iw_subprocess( callCommand, verboseFlag=False, debugFlag=False,  nohupFlag=F
      else:
 
           if debugFlag:
-               print
-               print " ".join(callCommand)
-               print
+               print()
+               print(" ".join(callCommand))
+               print()
 
           pipe   = subprocess.Popen(callCommand, stdout=subprocess.PIPE)
           output = pipe.communicate()[0]
 
           if debugFlag:
-               print
-               print output
-               print
+               print()
+               print(output)
+               print()
 
 
 
@@ -262,20 +273,20 @@ def  check_files(fileList, verboseFlag=False):
         if os.path.isfile(ii): 
             
             if verboseFlag:
-                print str( ii ) + " exists"
+                print(str( ii ) + ' exists')
                 
         else:                
             qaInputStatus = False
                     
             if verboseFlag:
                 strError = str( ii ) + " does not exist"
-                print strError
+                print(strError)
             
      
     if verboseFlag:
-        print
-        print "All files exist = " + str(qaInputStatus)
-        print
+        print()
+        print("All files exist = " + str(qaInputStatus))
+        print()
         
     return qaInputStatus
     
@@ -294,8 +305,8 @@ def save_image_affine_matrix(in_image, out_affine, verbose_flag=False):
 def write_itk_affine_matrix(affine_matrix, origin,  out_affine_filename, verbose_flag=False):
 
      if verbose_flag:
-          print "\n" + out_affine_filename + " affine matrix ...\n" 
-          print affine_matrix
+          print("\n" + out_affine_filename + " affine matrix ...\n")
+          print(affine_matrix)
 
      try:
           with open(out_affine_filename, 'w') as file:
@@ -315,7 +326,7 @@ def write_itk_affine_matrix(affine_matrix, origin,  out_affine_filename, verbose
 
           
      except IOError as e:
-          print
+          print()
           raise e
 
 
@@ -352,9 +363,7 @@ def is_writable( filepath ):
 def verify_outputs( output_files, debugFlag=False ):
 
      if debugFlag:
-          print
-          print 'Verifying outputs ...'
-          print
+          print('\nVerifying outputs ...\n')
 
      verify_files( output_files, debugFlag)
 
@@ -362,9 +371,7 @@ def verify_outputs( output_files, debugFlag=False ):
 def verify_inputs( input_files, debugFlag=False ):
 
      if debugFlag:
-          print
-          print 'Verifying inputs ...'
-          print
+          print('\nVerifying inputs ...\n')
 
      # Flatten list of list with sum(input_files,[])
      # http://stackoverflow.com/questions/952914/making-a-flat-list-out-of-list-of-lists-in-python
@@ -385,7 +392,7 @@ def verify_files( input_files, debugFlag ):
                with open(ii) as file:
 
                     if debugFlag:
-                         print ii
+                         print(ii)
           
           except IOError as e:
                missing_files = missing_files + [ ii ] 
@@ -394,13 +401,13 @@ def verify_files( input_files, debugFlag ):
      if status == False:
           
           for ii in missing_files:
-               print ii + " does not exist"
+               print(ii + " does not exist")
           
-          print
+          print()
           sys.exit('Aborting processing. Missing input files.')
 
      if debugFlag:
-          print
+          print()
 
 
 
@@ -409,13 +416,13 @@ def force_hard_link( in_source, in_target, debug=False):
      if os.path.exists(in_source):
 
          if debug:
-             print
-             print in_source
-             print in_target
-             print 'os.path.exists( in_target )', os.path.exists( in_target )
-             print 'os.path.islink( in_target )', os.path.islink( in_target )
-             print 'os.path.isfile( in_target )', os.path.isfile( in_target )
-             print
+             print()
+             print(in_source)
+             print(in_target)
+             print('os.path.exists( in_target )', os.path.exists( in_target ))
+             print('os.path.islink( in_target )', os.path.islink( in_target ))
+             print('os.path.isfile( in_target )', os.path.isfile( in_target ))
+             print()
 
          if os.path.islink(in_target):
              os.unlink(in_target)
@@ -424,7 +431,7 @@ def force_hard_link( in_source, in_target, debug=False):
              os.remove(in_target)
          
          if debug:
-             print 'os.link(' + in_source + ',' + in_target +')'
+             print('os.link(' + in_source + ',' + in_target +')')
 
          os.link(in_source, in_target)
 
@@ -437,13 +444,13 @@ def force_symbolic_link( in_source, in_target,debug=False):
      if os.path.exists(in_source):
 
          if debug:
-             print
-             print in_source
-             print in_target
-             print 'os.path.exists( in_target )', os.path.exists( in_target )
-             print 'os.path.islink( in_target )', os.path.islink( in_target )
-             print 'os.path.isfile( in_target )', os.path.isfile( in_target )
-             print
+             print()
+             print(in_source)
+             print(in_target)
+             print('os.path.exists( in_target )', os.path.exists( in_target ))
+             print('os.path.islink( in_target )', os.path.islink( in_target ))
+             print('os.path.isfile( in_target )', os.path.isfile( in_target ))
+             print()
 
          if os.path.islink(in_target):
              os.unlink(in_target)
@@ -507,7 +514,7 @@ def  fslview( fileList, verboseFlag=False ):
                 fslviewCommand = [ 'fslview', str(ii) ]
                 
                 if verboseFlag:
-                     print fslviewCommand
+                     print(fslviewCommand)
 
                 DEVNULL = open(os.devnull, 'wb')
                 pipe = subprocess.Popen(fslviewCommand, shell=True,

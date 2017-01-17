@@ -23,6 +23,32 @@ def clean( imageFile ):
      for ii in delete_files:
           os.remove( ii )
 
+def methods_write_json_redcap_mt_instrument(subject_id, output_dir, verbose):
+
+    # dict_ants_ct = OrderedDict((('subject_id', cenc_dirs['cenc']['id']),
+    #                            ('act_analyst', getpass.getuser()),
+    #                            ('act_datetime', '{:%Y-%b-%d %H:%M:%S}'.format(datetime.datetime.now())),
+    #                            ('act_gm_cortical_mean', '{0:4.3f}'.format(df_stats_gm_cortical['mean'].values[0])),
+    #                            ('act_gm_cortical_std', '{0:4.3f}'.format(df_stats_gm_cortical['std'].values[0])),
+    #                            ('act_gm_subcortical_mean',
+    #                             '{0:4.3f}'.format(df_stats_gm_subcortical['mean'].values[0])),
+    #                            ('act_gm_subcortical_std',
+    #                             '{0:4.3f}'.format(df_stats_gm_subcortical['std'].values[0])),
+    #                            ('act_wm_cortical_mean', '{0:4.3f}'.format(df_stats_wm_cerebral['mean'].values[0])),
+    #                            ('act_wm_cortical_std', '{0:4.3f}'.format(df_stats_wm_cerebral['std'].values[0])),
+    #                            ('act_wmlesions_mean', '{0:4.3f}'.format(df_stats_wm_lesions['mean'].values[0])),
+    #                            ('act_wmlesions_std', '{0:4.3f}'.format(df_stats_wm_lesions['std'].values[0]))
+    #                            )
+    #                           )
+    #
+    # magtrans_json_filename = os.path.join(cenc_dirs['mt']['dirs']['02-stats'], 'magtrans.json')
+    #
+    # with open(magtrans_json_filename, 'w') as outfile:
+    #     json.dump(dict_redcap, outfile, indent=4, ensure_ascii=True, sort_keys=False)
+    #
+    #
+    return
+
 
 #
 # Main Function
@@ -54,8 +80,12 @@ if __name__ == "__main__":
      parser.add_argument("-v","--verbose",    help="Verbose flag",      action="store_true", default=False )
      parser.add_argument("--debug",           help="Debug flag",      action="store_true", default=False )
      parser.add_argument("--clean",           help="Clean directory by deleting intermediate files",      action="store_true", default=False )
-     parser.add_argument("--qi",              help="QA inputs",      action="store_true", default=False )
-     parser.add_argument("--qo",              help="QA outputs",      action="store_true", default=False )
+     parser.add_argument("--qi",              help="QA of inputs",      action="store_true", default=False )
+     parser.add_argument("--qr",              help="QA of results",      action="store_true", default=False )
+     parser.add_argument("--results",         help="Create JSON file", action="store_true", default=False)
+     parser.add_argument("--subject_id",      help="Subject ID. Only used for dumping JSON file.  If not defined then "
+                                                   "and empyt Subject ID is used.", action="store_true", default=False)
+
      parser.add_argument("--nohup",           help="nohup",           action="store_true", default=False )
      parser.add_argument("-r", "--run",       help="Run processing pipeline",      action="store_true", default=False )
 
@@ -151,7 +181,7 @@ if __name__ == "__main__":
          qa.freeview( input_files[2:], True, inArgs.verbose )
 
      
-     # Run    
+     #region Methods
      # 
    
      if  inArgs.run or inArgs.nohup:
@@ -181,11 +211,12 @@ if __name__ == "__main__":
                qa.qa_exist( input_files, True )
                print()
 
+     #endregion
 
-     # Quality Assurance output
+     # Quality Assurance Results
      #
 
-     if  inArgs.qo:
+     if  inArgs.qr:
 
           if qa.qa_exist(output1_files, False):
                qa.freeview( output1_files, True, inArgs.verbose )
