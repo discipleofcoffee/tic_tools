@@ -31,3 +31,4 @@ alias tic_reorient='iwReorient2Std.sh ../../reorient *.gz'
 # Aliases to TIC Python functions
 
 alias tic_plot_overlay='$TIC_TOOLS_PYTHONPATH/plot_overlay.py'
+alias tic_ants_ct='$TIC_TOOLS_PYTHONPATH/ants_ct.py'
