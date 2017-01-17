@@ -59,10 +59,10 @@ def path_relative_to(in_directory, in_path):
 def print_stage( in_stage, verboseFlag=False ):
 
      if verboseFlag:
-          print()
+          print(' ')
           print('--------------------------------------------------------------------------------------------------------------')
           print('--- ' + in_stage)
-          print()
+          print(' ')
 
 
 
@@ -227,10 +227,10 @@ def iw_subprocess( callCommand, verboseFlag=False, debugFlag=False,  nohupFlag=F
           stderr_log_file   = 'nohup.stderr.' + timeStamp +'.log' 
           
           if verboseFlag or debugFlag:
-               print()
-               print(" ".join(callCommand))
+               print(' ')
+               print(' '.join(callCommand))
                print(stdout_log_file)
-               print()
+               print(' ')
 
           # http://stackoverflow.com/questions/6011235/run-a-program-from-python-and-have-it-continue-to-run-after-the-script-is-kille                   
 
@@ -241,22 +241,22 @@ def iw_subprocess( callCommand, verboseFlag=False, debugFlag=False,  nohupFlag=F
                             )
 
           if verboseFlag or debugFlag:
-               print()
+               print(' ')
 
      else:
 
           if debugFlag:
-               print()
-               print(" ".join(callCommand))
-               print()
+               print(' ')
+               print(' '.join(callCommand))
+               print(' ')
 
           pipe   = subprocess.Popen(callCommand, stdout=subprocess.PIPE)
           output = pipe.communicate()[0]
 
           if debugFlag:
-               print()
+               print(' ')
                print(output)
-               print()
+               print(' ')
 
 
 
@@ -284,9 +284,9 @@ def  check_files(fileList, verboseFlag=False):
             
      
     if verboseFlag:
-        print()
+        print(' ')
         print("All files exist = " + str(qaInputStatus))
-        print()
+        print(' ')
         
     return qaInputStatus
     
@@ -326,7 +326,7 @@ def write_itk_affine_matrix(affine_matrix, origin,  out_affine_filename, verbose
 
           
      except IOError as e:
-          print()
+          print(' ')
           raise e
 
 
@@ -403,11 +403,11 @@ def verify_files( input_files, debugFlag ):
           for ii in missing_files:
                print(ii + " does not exist")
           
-          print()
+          print(' ')
           sys.exit('Aborting processing. Missing input files.')
 
      if debugFlag:
-          print()
+          print(' ')
 
 
 
@@ -416,13 +416,13 @@ def force_hard_link( in_source, in_target, debug=False):
      if os.path.exists(in_source):
 
          if debug:
-             print()
+             print(' ')
              print(in_source)
              print(in_target)
              print('os.path.exists( in_target )', os.path.exists( in_target ))
              print('os.path.islink( in_target )', os.path.islink( in_target ))
              print('os.path.isfile( in_target )', os.path.isfile( in_target ))
-             print()
+             print(' ')
 
          if os.path.islink(in_target):
              os.unlink(in_target)
@@ -444,13 +444,13 @@ def force_symbolic_link( in_source, in_target,debug=False):
      if os.path.exists(in_source):
 
          if debug:
-             print()
+             print(' ')
              print(in_source)
              print(in_target)
              print('os.path.exists( in_target )', os.path.exists( in_target ))
              print('os.path.islink( in_target )', os.path.islink( in_target ))
              print('os.path.isfile( in_target )', os.path.isfile( in_target ))
-             print()
+             print(' ')
 
          if os.path.islink(in_target):
              os.unlink(in_target)
