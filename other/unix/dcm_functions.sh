@@ -183,10 +183,8 @@ dcm_flatten() {
 
     echo
     echo ">>>>>>>>>> ${FUNCNAME} : Finding all DCM files and creating hard links in $dcmFlatDir"
-    echo $dcm_search_dir
-    echo $dcm_flat_dir
     echo
- 
+
     dcm_flatten_core $dcm_flat_dir $(find -L $dcm_search_dir -name '*.DCM' -o -name '*.IMA')
 }
 
@@ -200,11 +198,6 @@ dcm_flatten() {
 dcm_flatten_core() {
 
     lnDir="${1}"
-
-    echo
-    echo $lnDir
-    echo
-
 
     if [ ! -d $lnDir ]; then
         mkdir -p $lnDir
