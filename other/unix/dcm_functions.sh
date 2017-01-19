@@ -182,11 +182,56 @@ dcm_flatten() {
   dcm_flat_dir=${2-$dcmFlatDir}
 
 
+
     echo
     echo ">>>>>>>>>> ${FUNCNAME} : Finding all DCM files and creating hard links in $dcmFlatDir"
     
-  lnflatten.sh $dcm_flat_dir $(find -L $dcm_search_dir -name '*.DCM' -o -name '*.IMA') 
+  dcm_flatten_core $dcm_flat_dir $(find -L $dcm_search_dir -name '*.DCM' -o -name '*.IMA')
 }
+
+
+dcm_flatten_core() {
+
+    lnDir="${1}"
+
+    if [ ! -d $lnDir ]; then
+         mkdir -p $lnDir
+    else
+        rm -rf $lnDir
+    fi
+
+
+    for x in "${@:2}"
+    do
+
+
+#  Do two replacements with sed.
+#
+#       1) Replace first "./" if it is at the beginning of the name with "".
+#          This removes the relative path designation and prevents files
+#          from being renamed as hidden files
+#
+#       2) Replace "/" with "_".
+#
+
+
+    y=$( echo "$x"  | sed  -e 's%^\.\/%%' -e 's%\/%_%g')
+
+
+
+    cmd=$( echo "ln -f ${x} ${lnDir}/${y}" )
+
+
+    #echo $x
+    #echo $y
+    #echo $cmd
+    #echo
+
+    $cmd
+
+    done
+}
+
 
 dcm_report() {
 
