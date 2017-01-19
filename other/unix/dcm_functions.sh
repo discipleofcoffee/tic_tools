@@ -185,6 +185,12 @@ dcm_flatten() {
     echo ">>>>>>>>>> ${FUNCNAME} : Finding all DCM files and creating hard links in $dcmFlatDir"
     echo
 
+    if [ -d $dcm_flat_dir ]; then
+        rm -rf ${dcm_flat_dir}
+    fi
+
+    mkdir -p $dcm_flat_dir
+
     dcm_flatten_core $dcm_flat_dir $(find -L $dcm_search_dir -name '*.DCM' -o -name '*.IMA')
 }
 
@@ -197,18 +203,10 @@ dcm_flatten() {
 
 dcm_flatten_core() {
 
-    lnDir="${1}"
-
-    if [ ! -d $lnDir ]; then
-        mkdir -p $lnDir
-    else
-        rm -f ${lnDir}/*.DCM
-    fi
-
+    dcm_flat_dir="${1}"
 
     for x in "${@:2}"
     do
-
 
 #  Do two replacements with sed.
 #
@@ -218,18 +216,16 @@ dcm_flatten_core() {
 #
 #       2) Replace "/" with "_".
 #
-
-
     y=$( echo "$x"  | sed  -e 's%^\.\/%%' -e 's%\/%_%g')
 
-    cmd=$(echo "ln -f ${x} ${lnDir}/${y}")
+    cmd=$(echo "ln -f ${x} ${dcm_flat_dir}/${y}")
     
 #    echo '======='
 #    echo $x
 #    echo $y
 #    echo $cmd
 #    echo '-------'
-    eval "$cmd"
+     eval "$cmd"
 #    echo '======='
 
     done
