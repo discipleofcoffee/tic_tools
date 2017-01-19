@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export dcmFlatDir="dcmFlat"
+export dcmFlatDir="./dcmFlat"
 
 export dcmConvertDir="../nifti"
 
@@ -55,13 +55,13 @@ dcm_mv_incoming(){
 
 dcm_scan() {
 
-    dcm_search_dir=${1-$PWD}
+    dcm_search_dir=${1-./}
     dcm_flat_dir=${2-$dcmFlatDir}
     dcm_report_info=${3-$dcmReportInfo}
 
     dcm_flatten       $dcm_search_dir
     dcm_report        $dcm_flat_dir $dcm_report_info
-    dcm_parse_general $
+    dcm_parse_general $dcm_report_info
 
 }
 
@@ -178,26 +178,38 @@ dcm_remove_localizers() {
 
 dcm_flatten() {
 
-  dcm_search_dir=${1-$PWD}
-  dcm_flat_dir=${2-$dcmFlatDir}
-
-
+    dcm_search_dir=${1-./}
+    dcm_flat_dir=${2-$dcmFlatDir}
 
     echo
     echo ">>>>>>>>>> ${FUNCNAME} : Finding all DCM files and creating hard links in $dcmFlatDir"
-    
-  dcm_flatten_core $dcm_flat_dir $(find -L $dcm_search_dir -name '*.DCM' -o -name '*.IMA')
+    echo $dcm_search_dir
+    echo $dcm_flat_dir
+    echo
+ 
+    dcm_flatten_core $dcm_flat_dir $(find -L $dcm_search_dir -name '*.DCM' -o -name '*.IMA')
 }
+
+
+
+
+
+
 
 
 dcm_flatten_core() {
 
     lnDir="${1}"
 
+    echo
+    echo $lnDir
+    echo
+
+
     if [ ! -d $lnDir ]; then
-         mkdir -p $lnDir
+        mkdir -p $lnDir
     else
-        rm -rf $lnDir
+        rm -f ${lnDir}/*.DCM
     fi
 
 
@@ -217,17 +229,15 @@ dcm_flatten_core() {
 
     y=$( echo "$x"  | sed  -e 's%^\.\/%%' -e 's%\/%_%g')
 
-
-
-    cmd=$( echo "ln -f ${x} ${lnDir}/${y}" )
-
-
-    #echo $x
-    #echo $y
-    #echo $cmd
-    #echo
-
-    $cmd
+    cmd=$(echo "ln -f ${x} ${lnDir}/${y}")
+    
+#    echo '======='
+#    echo $x
+#    echo $y
+#    echo $cmd
+#    echo '-------'
+    eval "$cmd"
+#    echo '======='
 
     done
 }
