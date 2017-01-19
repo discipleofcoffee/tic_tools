@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 
+# Set environment variables that are machine dependent.
+
 case $(hostname) in
   aging1a | aging2a)
-	export SOFTWARE_PATH=/aging1/software/
+	SOFTWARE_PATH=/aging1/software/
     ;;
 
   *)
      echo "Unknown HOSTNAME"
 esac
- 
+
+
 # Templates
 
 export TEMPLATES_PATH=/cenc/software/imagewake2/release/templates
@@ -16,6 +19,13 @@ export TEMPLATE_IXI=${TEMPLATES_PATH}/ixi
 export TEMPLATE_MNI=${TEMPLATES_PATH}/mni
 export TEMPLATE_INIA19=${TEMPLATES_PATH}/inia19_rhesus_macaque
 
+# Setup Python2 and Python 3
+
+export PYTHON2_PATH=/opt/anaconda2/bin
+export PYTHON3_PATH=/opt/anaconda3-4.2.0/bin
+
+export PATH="$PYTHON3_PATH:$PYTHON2_PATH:$PATH"
+ 
 # Nipype Configuration
      export NIPYPE_PYTHON_PATH=/opt/anaconda2/bin/
      export NIBABEL_PATH=${SOFTWARE_PATH}/nibabel
@@ -91,4 +101,5 @@ fi
    export DPABI_PATH=${SOFTWARE_PATH}/dpabi/DPABI_V2.1_160415
    export GRAPHVAR_PATH=${SOFTWARE_PATH}/graphvar/GraphVar_beta_v_06.2
    export JSON_PATH=${SOFTWARE_PATH}/jsonlab/jsonlab-1.2
+
 
