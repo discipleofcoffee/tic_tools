@@ -19,6 +19,12 @@ export TEMPLATE_IXI=${TEMPLATES_PATH}/ixi
 export TEMPLATE_MNI=${TEMPLATES_PATH}/mni
 export TEMPLATE_INIA19=${TEMPLATES_PATH}/inia19_rhesus_macaque
 
+# Setup Python2 and Python 3
+
+export PYTHON2_PATH=/opt/anaconda2/bin
+export PYTHON3_PATH=/opt/anaconda3-4.2.0/bin
+
+export PATH="$PYTHON3_PATH:$PYTHON2_PATH:$PATH"
  
 # Nipype Configuration
      export NIPYPE_PYTHON_PATH=/opt/anaconda2/bin/
