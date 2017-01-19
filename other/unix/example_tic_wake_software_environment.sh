@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-case $HOST in
+case $(hostname) in
   aging1a | aging2a)
 	export SOFTWARE_PATH=/aging1/software/
     ;;

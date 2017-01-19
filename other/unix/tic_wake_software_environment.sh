@@ -2,7 +2,7 @@
 
 # Set environment variables that are machine dependent.
 
-case $HOST in
+case $(hostname) in
   aging1a | aging2a)
 	SOFTWARE_PATH=/aging1/software/
     ;;
