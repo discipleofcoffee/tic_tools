@@ -55,9 +55,13 @@ dcm_mv_incoming(){
 
 dcm_scan() {
 
-    dcm_flatten       $1
-    dcm_report        $1
-    dcm_parse_general $2
+    dcm_search_dir=${1-$PWD}
+    dcm_flat_dir=${2-$dcmFlatDir}
+    dcm_report_info=${3-$dcmReportInfo}
+
+    dcm_flatten       $dcm_search_dir
+    dcm_report        $dcm_flat_dir $dcm_report_info
+    dcm_parse_general $
 
 }
 
@@ -80,6 +84,7 @@ dcm_auto() {
 dcm_parse_general() {
     
     outFileName=${1-$dcmConvertAll}
+    dcm_report_info=${2-$dcmReportInfo}
 
     echo
     echo ">>>>>>>>>>> ${FUNCNAME}: cat $dcmConvertAll ..."
@@ -95,7 +100,7 @@ dcm_parse_general() {
          -v awkFormat="$dcmFormat" \
          -v awkExtension="$dcmFormatExtension" \
                 'BEGIN { FS = " " } 
-                { printf "%2d %s %s %s%s\n", $1, awkOutDir, awkFormat, $2, awkExtension }'  $dcmReportInfo > ${outFileName}.tmp1
+                { printf "%2d %s %s %s%s\n", $1, awkOutDir, awkFormat, $2, awkExtension }'  $dcm_report_info > ${outFileName}.tmp1
 
      sed -i -e '/Phoenix/d'  ${outFileName}.tmp1  # Remove Phoenix from the list
 
@@ -173,18 +178,25 @@ dcm_remove_localizers() {
 
 dcm_flatten() {
 
+  dcm_search_dir=${1-$PWD}
+  dcm_flat_dir=${2-$dcmFlatDir}
+
+
     echo
     echo ">>>>>>>>>> ${FUNCNAME} : Finding all DCM files and creating hard links in $dcmFlatDir"
     
-  lnflatten.sh $dcmFlatDir $(find -L $1 -name '*.DCM' -o -name '*.IMA') 
+  lnflatten.sh $dcm_flat_dir $(find -L $dcm_search_dir -name '*.DCM' -o -name '*.IMA') 
 }
 
 dcm_report() {
 
+    dcm_flat_dir=${1-$dcmFlatDir}
+    dcm_report_info=${2-$dcmReportInfo}
+
     echo
     echo ">>>>>>>>>> ${FUNCNAME}: Scanning DCM files and creating $dcmReportInfo"
 
-    unpacksdcmdir -src $dcmFlatDir -targ . -scanonly $dcmReportInfo
+    unpacksdcmdir -src $dcm_flat_dir -targ . -scanonly $dcm_report_info
 }
 
 dcm_delete_duplicates(){
