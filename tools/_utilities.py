@@ -114,7 +114,6 @@ def gzip( filename, verboseFlag=False ):
     return filename +  ".gz"
 
 
-
 def clean( regexp ):
 
      delete_files = glob.glob( regexp )
@@ -129,6 +128,19 @@ def add_prefix_to_filename( filename, prefix):
      base_filename = tmp[1]
      
      return os.path.join(dir_name, prefix + base_filename)
+
+
+def replace_nii_or_nii_gz_suffix(in_filename, suffix):
+
+    if in_filename[-7:] == '.nii.gz':
+        out_filename = in_filename[:-7] + suffix
+    elif in_filename[-3:] == '.nii':
+        out_filename = in_filename[:-3] + suffix
+    else:
+        print('Unknown extension')
+        sys.exit()
+
+    return out_filename
 
 
 def  insert_suffix_into_filename( filename, suffix, full_extension = ".nii.gz" ):
@@ -207,7 +219,7 @@ def make_sure_path_exists(path):
 
 
 
-def iw_subprocess( callCommand, verboseFlag=False, debugFlag=False,  nohupFlag=False ):
+def iw_subprocess( callCommand, verbose_flag=False, debug_flag=False,  nohup_flag=False, wait_flag=True ):
 
      import datetime
 
@@ -216,9 +228,9 @@ def iw_subprocess( callCommand, verboseFlag=False, debugFlag=False,  nohupFlag=F
           
      callCommand = map(str, callCommand)
 
-     if nohupFlag:
+     if nohup_flag:
 
-          if debugFlag:
+          if debug_flag:
                print('Timestamp: %s ' % timeStamp )
 
           callCommand = ["nohup" ] + callCommand
@@ -226,7 +238,7 @@ def iw_subprocess( callCommand, verboseFlag=False, debugFlag=False,  nohupFlag=F
           stdout_log_file   = 'nohup.stdout.' + timeStamp +'.log'
           stderr_log_file   = 'nohup.stderr.' + timeStamp +'.log' 
           
-          if verboseFlag or debugFlag:
+          if verbose_flag or debug_flag:
                print(' ')
                print(' '.join(callCommand))
                print(stdout_log_file)
@@ -240,50 +252,53 @@ def iw_subprocess( callCommand, verboseFlag=False, debugFlag=False,  nohupFlag=F
                             preexec_fn=os.setpgrp, 
                             )
 
-          if verboseFlag or debugFlag:
+          if verbose_flag or debug_flag:
                print(' ')
 
      else:
 
-          if debugFlag:
+          if debug_flag:
                print(' ')
                print(' '.join(callCommand))
                print(' ')
 
           pipe   = subprocess.Popen(callCommand, stdout=subprocess.PIPE)
-          output = pipe.communicate()[0]
 
-          if debugFlag:
-               print(' ')
-               print(output)
-               print(' ')
+          if wait_flag:
+              pipe.wait()
+
+          if debug_flag:
+              output = pipe.communicate()[0]
+              print(' ')
+              print(output)
+              print(' ')
 
 
 
 
-def  check_files(fileList, verboseFlag=False):
+def  check_files(fileList, verbose_flag=False):
     
     qaInputStatus = True
     
-    if verboseFlag:
+    if verbose_flag:
         print
         
     for ii in fileList:
 
         if os.path.isfile(ii): 
             
-            if verboseFlag:
+            if verbose_flag:
                 print(str( ii ) + ' exists')
                 
         else:                
             qaInputStatus = False
                     
-            if verboseFlag:
+            if verbose_flag:
                 strError = str( ii ) + " does not exist"
                 print(strError)
             
      
-    if verboseFlag:
+    if verbose_flag:
         print(' ')
         print("All files exist = " + str(qaInputStatus))
         print(' ')
@@ -332,7 +347,7 @@ def write_itk_affine_matrix(affine_matrix, origin,  out_affine_filename, verbose
 
 
 
-def mkcd_dir( in_directories, cdFlag=True ):
+def mkcd_dir( in_directories, cd_flag=True ):
 
      # Force directories to be list even if passed in as string
      if isinstance(in_directories, str):
@@ -348,7 +363,7 @@ def mkcd_dir( in_directories, cdFlag=True ):
                os.makedirs( ii )
 
      # Change directory to last directory in list
-     if cdFlag:
+     if cd_flag:
           os.chdir( directories[-1] )
 
 def is_writable( filepath ):
@@ -360,27 +375,27 @@ def is_writable( filepath ):
 
 
 
-def verify_outputs( output_files, debugFlag=False ):
+def verify_outputs( output_files, debug_flag=False ):
 
-     if debugFlag:
+     if debug_flag:
           print('\nVerifying outputs ...\n')
 
-     verify_files( output_files, debugFlag)
+     verify_files( output_files, debug_flag)
 
 
-def verify_inputs( input_files, debugFlag=False ):
+def verify_inputs( input_files, debug_flag=False ):
 
-     if debugFlag:
+     if debug_flag:
           print('\nVerifying inputs ...\n')
 
      # Flatten list of list with sum(input_files,[])
      # http://stackoverflow.com/questions/952914/making-a-flat-list-out-of-list-of-lists-in-python
 
-     verify_files( input_files, debugFlag)
+     verify_files( input_files, debug_flag)
 
 
 
-def verify_files( input_files, debugFlag ):
+def verify_files( input_files, debug_flag ):
 
      status = True  # Assume all files are present
 
@@ -391,7 +406,7 @@ def verify_files( input_files, debugFlag ):
           try:
                with open(ii) as file:
 
-                    if debugFlag:
+                    if debug_flag:
                          print(ii)
           
           except IOError as e:
@@ -406,7 +421,7 @@ def verify_files( input_files, debugFlag ):
           print(' ')
           sys.exit('Aborting processing. Missing input files.')
 
-     if debugFlag:
+     if debug_flag:
           print(' ')
 
 
@@ -483,7 +498,7 @@ def copy_inputs( input_files, link_directory ):
              shutil.copy(ii, ii_link_target_name )
 
 
-def  freeview( fileList, displayFlag=True, verboseFlag=False ):
+def  freeview( fileList, display_flag=True, verbose_flag=False ):
 
     freeviewCommand = "freeview "
 
@@ -497,13 +512,13 @@ def  freeview( fileList, displayFlag=True, verboseFlag=False ):
                 freeviewCommand = freeviewCommand + " " + str(ii[0]) + str(ii[1])
                 
      
-    if displayFlag:
+    if display_flag:
         DEVNULL = open(os.devnull, 'wb')
         pipe = subprocess.Popen([freeviewCommand], shell=True,
                                 stdin=DEVNULL, stdout=DEVNULL, stderr=DEVNULL, close_fds=True)
 
 
-def  fslview( fileList, verboseFlag=False ):
+def  fslview( fileList, verbose_flag=False ):
 
     for ii in fileList:
 
@@ -513,7 +528,7 @@ def  fslview( fileList, verboseFlag=False ):
 
                 fslviewCommand = [ 'fslview', str(ii) ]
                 
-                if verboseFlag:
+                if verbose_flag:
                      print(fslviewCommand)
 
                 DEVNULL = open(os.devnull, 'wb')

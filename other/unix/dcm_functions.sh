@@ -1,5 +1,4 @@
 #!/bin/bash
-
 export dcmFlatDir="./dcmFlat"
 
 export dcmConvertDir="../nifti"
@@ -9,6 +8,9 @@ export dcmConvert="dcmConvert.cfg"
 
 export dcmReportInfo="dcmReport.info"
 
+export dcmFiles1="*.DCM"
+export dcmFiles2="*.IMA"
+export dcmFiles3="*.dcm"
 
 export dcmFormat="nii"
 export dcmFormatExtension=".nii.gz"
@@ -47,9 +49,6 @@ dcm_mv_incoming(){
     mkdir -p $2/data/
     mv $1 $2/data/dicom
 
-#    cd $2/data/dicom
-#    dcm_scan 2*
-
 }
 
 
@@ -57,11 +56,12 @@ dcm_scan() {
 
     dcm_search_dir=${1-./}
     dcm_flat_dir=${2-$dcmFlatDir}
-    dcm_report_info=${3-$dcmReportInfo}
+    dcm_convert_all=${3-$dcmConvertAll}
+    dcm_report_info=${4-$dcmReportInfo}
 
     dcm_flatten       $dcm_search_dir
     dcm_report        $dcm_flat_dir $dcm_report_info
-    dcm_parse_general $dcm_report_info
+    dcm_parse_general $dcm_convert_all $dcm_report_info
 
 }
 
@@ -100,7 +100,8 @@ dcm_parse_general() {
          -v awkFormat="$dcmFormat" \
          -v awkExtension="$dcmFormatExtension" \
                 'BEGIN { FS = " " } 
-                { printf "%2d %s %s %s%s\n", $1, awkOutDir, awkFormat, $2, awkExtension }'  $dcm_report_info > ${outFileName}.tmp1
+                { printf "%2d %s %s %s%s\n", $1, awkOutDir, awkFormat, $2, awkExtension }' \
+		    $dcm_report_info > ${outFileName}.tmp1
 
      sed -i -e '/Phoenix/d'  ${outFileName}.tmp1  # Remove Phoenix from the list
 
@@ -191,7 +192,7 @@ dcm_flatten() {
 
     mkdir -p $dcm_flat_dir
 
-    dcm_flatten_core $dcm_flat_dir $(find -L $dcm_search_dir -name '*.DCM' -o -name '*.IMA')
+    dcm_flatten_core $dcm_flat_dir $(find -L $dcm_search_dir -name $dcmFiles1 -o -name $dcmFiles2 -o -name $dcmFiles3)
 }
 
 
@@ -239,6 +240,9 @@ dcm_report() {
 
     echo
     echo ">>>>>>>>>> ${FUNCNAME}: Scanning DCM files and creating $dcmReportInfo"
+    echo $dcm_flat_dir
+    echo $dcm_report_info
+    echo
 
     unpacksdcmdir -src $dcm_flat_dir -targ . -scanonly $dcm_report_info
 }
