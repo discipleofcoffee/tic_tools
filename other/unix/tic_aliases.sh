@@ -2,6 +2,7 @@
 
 alias cdtic='cd $TIC_PATH; lsreport_function'
 alias cdstudies='cd $STUDIES_PATH; lsreport_function'
+alias cdtemplates='cd $TEMPLATES_PATH; lsreport_function'
 
 alias cdsd='cd $SUBJECTS_DIR; lsreport_function'
 

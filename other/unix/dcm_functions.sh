@@ -62,7 +62,6 @@ dcm_scan() {
     dcm_flatten       $dcm_search_dir
     dcm_report        $dcm_flat_dir $dcm_report_info
     dcm_parse_general $dcm_convert_all $dcm_report_info
-
 }
 
 
@@ -82,7 +81,8 @@ dcm_auto() {
 }
 
 dcm_parse_general() {
-    
+
+    FUNCNAME=dcm_parse_general
     outFileName=${1-$dcmConvertAll}
     dcm_report_info=${2-$dcmReportInfo}
 
@@ -113,35 +113,17 @@ dcm_parse_general() {
 }
 
 dcm_add_rs() {
-
- # echo " "
- # echo ">>>>>>>>>> ${FUNCNAME}: Adding rs## numbering from $1 "
-
      awk 'BEGIN { FS = " " } 
                 { gsub( ".nii", sprintf("_rs%02d.nii", $1), $4);
                   printf("%2d %s %s %s\n", $1, $2, $3, $4) }'  $1
-#  echo " "
 }
 
 dcm_remove_rs() {
-#  echo 
-#  echo ">>>>>>>>>> ${FUNCNAME}: Removing rs## numbering from $1 "
-#  echo 
-
   sed -e 's#_rs[[:digit:]][[:digit:]]##' $1
-
-#  echo 
 }
 
 dcm_remove_rs01() {
-
-#  echo " "
-#  echo ">>>>>>>>>> ${FUNCNAME}: Removing Localizer images from $1 "
-#  echo 
-
   sed -e 's#_rs01##' $1
-
-#  echo " "
 }
 
 dcm_parse_secret1_t1ax_thigh() {
@@ -159,26 +141,16 @@ dcm_parse_secret1_t1ax_thigh() {
 }
 
 dcm_remove_dti_color_fa() {
-#  echo ""
-#  echo ">>>>>>>>>> ${FUNCNAME}: Deleting DTI Color FA from $1 "
-  
   sed -e '/ed2d.*_rs05/d' $1
-
-#  echo ""
 }
 
 dcm_remove_localizers() {
-
-#  echo ""
-#  echo ">>>>>>>>>> ${FUNCNAME}: Removing Localizer images from $1 "
-
   sed  -e '/localizer/Id'  -e '/LOC/Id' $1
-
-#  echo ""
 }
 
 dcm_flatten() {
 
+    FUNCNAME=dcm_flatten
     dcm_search_dir=${1-./}
     dcm_flat_dir=${2-$dcmFlatDir}
 
@@ -187,6 +159,7 @@ dcm_flatten() {
     echo
 
     if [ -d $dcm_flat_dir ]; then
+	echo 'Old ' $dcm_flat_dir ' exists.  Deleting before relinking dicom files.'
         rm -rf ${dcm_flat_dir}
     fi
 
@@ -235,13 +208,12 @@ dcm_flatten_core() {
 
 dcm_report() {
 
+    FUNCNAME=dcm_report
     dcm_flat_dir=${1-$dcmFlatDir}
     dcm_report_info=${2-$dcmReportInfo}
 
     echo
     echo ">>>>>>>>>> ${FUNCNAME}: Scanning DCM files and creating $dcmReportInfo"
-    echo $dcm_flat_dir
-    echo $dcm_report_info
     echo
 
     unpacksdcmdir -src $dcm_flat_dir -targ . -scanonly $dcm_report_info
@@ -252,7 +224,7 @@ dcm_delete_duplicates(){
 }
 
 dcm_convert() {
-
+    FUNCNAME=dcm_convert
     startDir=$PWD
 
     echo

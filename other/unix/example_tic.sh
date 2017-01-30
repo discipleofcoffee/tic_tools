@@ -9,7 +9,7 @@ if [ ! -d $TIC_PATH ]; then
     echo
     echo "$TIC_PATH does not exist. Please edit your $HOME/.tic/tic.sh file."
     echo
-    sleep 5
+    sleep 10
 
 fi
 
@@ -52,4 +52,45 @@ TEMPLATE_OHSU_RHESUS=$TEMPLATES_PATH/ohsu_rhesus
 
 
 
+# CENC Study initialization ==================================================
+
+export CENC_PATH=/cenc/tic/studies/cenc  # where CENC project is located
+
+export CENC_DISK=/cenc/          # The directory CENC_DISK directory is the parent directory of the CENC study.
+                                 # On aging1a it is /cenc/. This changes depending upon the mount point for
+                                 # each computer.
+
+source ${CENC_PATH}/cenc_bash_setup.sh
+
+# WBI Study initialization ==================================================
+
+export WBI_PATH=/cenc/tic/studies/wbi  # where WBI project is located
+
+export WBI_DISK=/wbi/            # The directory WBI_DISK directory is the parent directory of the WBI study.
+                                 # On aging1a it is /wbi/. This changes depending upon the mount point for
+                                 # each computer.
+
+source ${WBI_PATH}/wbi_bash_setup.sh
+
+# RADCORE Study initialization ==================================================
+
+export RADCORE_PATH=/cenc/tic/studies/radcore/  # where RADCORE project is located
+
+export RADCORE_DISK=/RadCCORE_MRI/  # The directory RADCORE_DISK directory is the parent directory of the RADCORE study.
+                                    # On aging1a it is /RADCORE/. This changes depending upon the mount point for
+                                    # each computer.
+
+export RADCORE_MRI_SUBJECT_DATA=${RADCORE_DISK}/subjects/   # This directory contains the invidual MRI scans of each
+                                                            # NHP.
+
+source ${RADCORE_PATH}/radcore_bash_setup.sh
+
+
+# INFINITE Study initialization ==================================================
+
+
+export INFINITE_PATH=/cenc/tic/studies/infinite/
+export INFINITE_DISK=/gandg/infinite/imaging_data/
+
+source $INFINITE_PATH/infinite_bash_setup.sh
 

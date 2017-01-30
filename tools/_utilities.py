@@ -257,7 +257,7 @@ def iw_subprocess( callCommand, verbose_flag=False, debug_flag=False,  nohup_fla
 
      else:
 
-          if debug_flag:
+          if verbose_flag:
                print(' ')
                print(' '.join(callCommand))
                print(' ')
