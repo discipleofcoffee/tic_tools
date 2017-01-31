@@ -20,6 +20,9 @@ alias hg='history | grep '
 alias eg='env | grep '
 alias lg='ls | grep '
 
+alias lsp='echo; echo $PATH | tr ":" "\n" | cat -n | sort -n -r; echo'          # Enumerates path
+alias lspp='echo; echo $PYTHONPATH | tr ":" "\n" | cat -n | sort -n -r; echo'   # Enumerates Python Path
+
 
 alias frv='freeview'
 alias fsv='fslview'

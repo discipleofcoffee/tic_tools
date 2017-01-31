@@ -8,7 +8,7 @@
 
 
 export TIC_TOOLS_PYTHONPATH=${TIC_TOOLS_PATH}/tools
-export PYTHONPATH=${TIC_TOOLS_PYTHONPATH}:$PYTHONPATH
+export PYTHONPATH=${TIC_TOOLS_PATH}:$PYTHONPATH
 
 source $TIC_TOOLS_PATH/other/unix/dcm_functions.sh
 source $TIC_TOOLS_PATH/other/unix/tic_aliases.sh
