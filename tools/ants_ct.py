@@ -260,9 +260,9 @@ if __name__ == '__main__':
      output_result_files   = [[ inArgs.t1full,                                ':visible=1:colormap=grayscale'],
                               [ outFull+'BrainSegmentationPosteriors2.nii.gz', ':visible=0:colormap=heat:heatscale=0.1,0.5,1:opacity=0.5'],
                               [ outFull+'BrainSegmentationPosteriors3.nii.gz', ':visible=0:colormap=heat:heatscale=0.1,0.5,1:opacity=0.5'],
-                              [ outFull+'BrainSegmentation.nii.gz', ':visible=0:colormap=lut:colorscale=0,6:opacity=0.75:lut='+ 
-                                brain_segmentation_lut],
-                              [ outFull+'CorticalThickness.nii.gz',':visible=1:colormap=heat:opacity=0.75']
+                              [ outFull+'CorticalThickness.nii.gz',':visible=0:colormap=heat:opacity=0.75'],        
+                              [ outFull+'BrainSegmentation.nii.gz', ':visible=1:colormap=lut:colorscale=0,6:opacity=0.75:lut='+ 
+                                brain_segmentation_lut],                             
                                ]
 
 

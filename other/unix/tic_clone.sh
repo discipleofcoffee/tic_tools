@@ -30,9 +30,4 @@ for ii in tic_protocol_check; do
     echo
 done
 
-#git clone https://github.com/bkraft4257/tic_freesurfer
-#git clone https://github.com/bkraft4257/tic_labels
-#git clone https://github.com/crhamilt/tic_protocol_check
-#git clone https://github.com/bkraft4257/tic_redcap_link
-
 source  $TIC_TOOLS_PATH/other/unix/tic_initial_setup.sh

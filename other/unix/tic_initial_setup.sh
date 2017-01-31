@@ -33,11 +33,16 @@ if [ ! -d $TIC_SETUP_PATH ]; then
 
     cp $TIC_TOOLS_PATH/other/unix/example_tic.sh                           $TIC_SETUP_PATH/tic.sh
     cp $TIC_TOOLS_PATH/other/unix/example_tic_wake_software_environment.sh $TIC_SETUP_PATH/tic_wake_software_environment.sh
+else
+    echo
+    echo "$HOME/.tic exists.  Not proceeding with copying tic.sh and tic_wake_software_environment.sh"
+    echo
 fi
 
 #
 echo
-echo "Individual studies need to be added separately. The comamnds to do so are echoed below. I know there is a better"
+echo "Individual studies need to be added separately. The studies you are interested in will need to be cloned. After cloning"
+echo "each study will need to be added to your tic.sh. The commands to do so are echoed below. I know there is a better"
 echo " way to do this with a python script but for the moment I am being lazy. -BK"
 echo
 echo "tail -10 /cenc/tic/studies/cenc/other/unix/cenc_add_to_tic.sh >> $HOME/.tic/tic.sh"
