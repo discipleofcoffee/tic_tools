@@ -31,6 +31,7 @@ alias lnflatten='${TIC_TOOLS_PATH}/other/unix/lnflatten.sh'
 alias cpflatten='${TIC_TOOLS_PATH}/other/unix/cpflatten.sh'
 
 alias tic_reorient2std='${TIC_TOOLS_PATH}/other/unix/tic_reorient2std.sh ../../reorient *.gz'
+alias tic_path='echo; echo $TIC_PATH; echo'
 
 # Aliases to TIC Python functions
 
