@@ -46,39 +46,55 @@ def qa_display(output_files, method):
           
           
 
+brain_segmentation_files = ( 'BrainSegmentation0N4.nii.gz',
+                       'BrainSegmentationConvergence.txt',
+                       'BrainSegmentation.nii.gz',
+                       'BrainSegmentationPosteriors1.nii.gz',
+                       'BrainSegmentationPosteriors2.nii.gz',
+                       'BrainSegmentationPosteriors3.nii.gz',
+                       'BrainSegmentationPosteriors4.nii.gz',
+                       'BrainSegmentationPosteriors5.nii.gz',
+                       'BrainSegmentationPosteriors6.nii.gz'
+                       )
+
+registration_files = ( 'BrainNormalizedToTemplate.nii.gz',
+                 'BrainSegmentationTiledMosaic.png',
+                 'brainvols.csv',
+                 'CorticalThickness.nii.gz',
+                 'CorticalThicknessNormalizedToTemplate.nii.gz',
+                 'CorticalThicknessTiledMosaic.png',
+                 'BrainExtractionBrain.nii.gz',
+                 'ExtractedBrain0N4.nii.gz',
+                 'ExtractedTemplateBrain.nii.gz',
+                 'RegistrationTemplateBrainMask.nii.gz',
+                 'SubjectToTemplate0GenericAffine.mat',
+                 'SubjectToTemplate1Warp.nii.gz',
+                 'SubjectToTemplateLogJacobian.nii.gz',
+                 'TemplateToSubject0Warp.nii.gz',
+                 'TemplateToSubject1GenericAffine.mat'
+                 )
+
+def ants_ct_status( out_directory, out_prefix):
+
+     check_files =  [os.path.abspath( os.path.join(out_directory, out_prefix + f)) for f in brain_segmentation_files ]
+     check_files += [os.path.abspath( os.path.join(out_directory, out_prefix + f)) for f in registration_files ]
+
+     ants_ct_status = False
+
+     for ii in check_files:
+          if os.path.isfile(ii): 
+               return True
+
+     return ants_ct_status
+
+
+
 def clean( out_dir ):
-
-     brain_segmentation = ( 'BrainSegmentation0N4.nii.gz', 
-                            'BrainSegmentationConvergence.txt',
-                            'BrainSegmentation.nii.gz',
-                            'BrainSegmentationPosteriors1.nii.gz',
-                            'BrainSegmentationPosteriors2.nii.gz',
-                            'BrainSegmentationPosteriors3.nii.gz',
-                            'BrainSegmentationPosteriors4.nii.gz',
-                            'BrainSegmentationPosteriors5.nii.gz',
-                            'BrainSegmentationPosteriors6.nii.gz'
-                            )
-
-     registration = ( 'BrainNormalizedToTemplate.nii.gz',
-                      'BrainSegmentationTiledMosaic.png',
-                      'brainvols.csv',
-                      'CorticalThickness.nii.gz',
-                      'CorticalThicknessNormalizedToTemplate.nii.gz',
-                      'CorticalThicknessTiledMosaic.png',
-                      'ExtractedBrain0N4.nii.gz',
-                      'ExtractedTemplateBrain.nii.gz',
-                      'RegistrationTemplateBrainMask.nii.gz',
-                      'SubjectToTemplate0GenericAffine.mat',
-                      'SubjectToTemplate1Warp.nii.gz',
-                      'SubjectToTemplateLogJacobian.nii.gz',
-                      'TemplateToSubject0Warp.nii.gz',
-                      'TemplateToSubject1GenericAffine.mat'
-                      )
 
      os.chdir(out_dir)
 
-     for ii in registration + brain_segmentation:
-          delete_files = glob.glob('*' + ii )
+     for ii in registration_files + brain_segmentation_files:
+          delete_files = glob.glob('*' + ii )     # Delete files regardless of prefix
 
           for jj in delete_files:
                os.remove( jj )
@@ -162,6 +178,9 @@ if __name__ == '__main__':
      parser.add_argument('--indir',           help='Input directory', default = os.getcwd() )
      parser.add_argument('--outdir',          help='Output directory', default = '../methods/' )
      parser.add_argument('--outprefix',       help='Output prefix', default = '' )
+
+     parser.add_argument('--mask',            help='Mask to use for antsCorticalThickness.sh.', default = None)
+
      parser.add_argument('-d','--display',    help='Display Results', action='store_true', default=False )
      parser.add_argument('-t','--template',   help='Template', default='inia19', choices=['inia19', 'ixi'])
      parser.add_argument('-v','--verbose',    help='Verbose flag',      action='store_true', default=False )
@@ -293,12 +312,28 @@ if __name__ == '__main__':
           qa.freeview( input_files[:2], True, inArgs.verbose )
           qa.freeview( input_files[2:], True, inArgs.verbose )
           
-     
      # Clean Directory
 
      if inArgs.clean:
           clean( out_directory )
 
+     # Replace Mask
+
+     if inArgs.mask is not None:
+          
+          if not os.path.exists(out_directory):
+               os.makedirs(out_directory)
+
+               shutil.copy2( os.path.abspath( os.path.join(inArgs.indir, inArgs.mask )),
+                             os.path.abspath( os.path.join(out_directory, inArgs.outprefix + 'BrainExtractionMask.nii.gz' )))
+          else:
+
+               if ants_ct_status( out_directory, inArgs.outprefix):
+                    print('\nOutput directory should be cleaned before proceeding.\n')
+                    exit()
+
+               
+               
      # Methods
      # 
    
