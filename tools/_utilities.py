@@ -45,14 +45,21 @@ def extract_participant_id( in_dir, pattern ):
      return match[0]
 
 
-def path_relative_to(in_directory, in_path):
+def path_relative_to(in_parent_path, in_path):
+    """
+    Returns the absolute path of in_path.
 
-     if os.path.isabs(in_path):
-          out_path = in_path
-     else:
-          out_path = os.path.abspath(os.path.join(in_directory, in_path )) 
+    :param in_root_path: Parent path if in_path is a relative path.
+    :param in_path: An absolute or relative path. If relative path then the path is relative to in_root_path
+    :return: Absolute path of in_path.
+    """
 
-     return out_path
+    if os.path.isabs(in_path):
+        out_path = in_path
+    else:
+        out_path = os.path.abspath(os.path.join(in_parent_path, in_path ))
+
+    return out_path
 
 
 
